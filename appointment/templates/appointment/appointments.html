@@ -1,0 +1,65 @@
+{% extends 'customauth/base.html' %}
+{% block title %} Appointments {% endblock %}
+
+{% block body %}
+<style>
+     /* Media queries */
+        @media (max-width: 768px) {
+            .table-cont>.table{font-size: 0.6em;}
+            .table-cont>.table>tbody button{
+                font-size: 0.9em !important;
+                width: 8em;
+                margin-top: 0.5em;
+            }
+            .table-cont>a{margin-bottom: 5em; font-size: 0.7em;}
+            .modal-header>.modal-title{font-size: 1em !important;}
+            .modal-body>form>button{font-size: 0.8em;}
+            .modal-body>form>div>input{font-size: 0.8em;}
+            .modal-body>form>div>select{font-size: 0.8em;}
+        }
+</style>
+{% load static %}
+    <div class="container mt-5 mb-5 table-cont">
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Time</th>
+                <th scope="col" class="text-center">Service</th>
+                <th scope="col" class="text-center">Barber</th>
+                <th scope="col" class="text-center">Action</th>
+                </tr>
+            </thead>
+            <!-- To show all appointments scheduled by the user -->
+            {% include 'appointment/list_appointments.html' %}
+        </table>
+        <a class="btn btn-secondary" href="{% url 'set_appointment' %}" role="button">Return</a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="reschedule" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Select a date to check availability</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'update_event' %}" id="date-form">
+                    {% csrf_token %}
+                    <div class="mb-5">
+                        <input type="date" name="date" class="form-control mb-2" id="newDate">
+                        <select name="time" disabled class="select form-select" id="newTime"></select>
+                        <input type="text" class="visually-hidden" data-url="{% url 'availability' %}" id="url-availability">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JS script -->
+    <script src="{% static 'appointment/js/appointments.js' %}"></script>
+{% endblock %}

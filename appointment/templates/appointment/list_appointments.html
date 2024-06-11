@@ -1,0 +1,25 @@
+<tbody id="appointment-tbody">
+{% for appointment in appointment_list %}
+    <tr class="text-center">
+        <td>{{appointment.date}}</td>
+        <td>{{appointment.time}}</td>
+        <td>{{appointment.service}}</td>
+        <td>{{appointment.barber}}</td>
+        <td>
+            <button class="btn btn-danger cancel-btn" type="submit"
+            hx-delete="{% url 'delete_event' pk=appointment.id eid=appointment.event_id %}"
+            hx-target="#appointment-tbody"
+            hx-swap="outerHTML">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-secondary btn-reschedule" 
+                data-bs-toggle="modal" data-bs-target="#reschedule" 
+                data-appointmentId={{appointment.id}} 
+                data-barberId={{appointment.barber.id}}
+                data-eventId={{appointment.event_id}}>
+                Reschedule
+            </button>
+        </td>
+    </tr>
+{% endfor %}
+</tbody>

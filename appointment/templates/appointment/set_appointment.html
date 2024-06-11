@@ -1,0 +1,79 @@
+{% extends 'customauth/base.html' %}
+{% block title %}Appointment Page{% endblock  %}
+
+{% block body %}
+{% load crispy_forms_tags %}
+{% load static %}
+<style>
+    .actions-cont>div>p>strong{    
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: italic;
+    }
+    .appoint-cont>div>h4{
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+    .text-color{color: #607274;}
+
+    /* Media queries */
+        @media (max-width: 768px) {
+            .row>div>.appoint-cont{width: 100% !important;}
+            .row>div>img{width:60% !important;}
+            .row>div{
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-top: 3em;
+            }
+            .actions-cont{
+                margin-left: 0px !important;
+                margin-bottom: 3em;
+            }
+            .actions-cont>div>a{font-size: 0.7em;}
+            .card-body>.text-color{font-size: 0.8em;}
+            .card-body>.text-color>div>button{font-size: 1em;}
+        }
+</style>
+{% if 'created' in request.GET %}
+    <div class="container d-flex justify-content-center mt-1">
+        <div class="alert alert-success alert-dismissible fade show w-50 text-center p-1" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <p>Appointment created, you should receive an email notification</p>
+        </div>
+    </div>
+{% endif %}
+<div class="row g-0 mt-3 mb-5">
+    <div class="col-md-4">
+        <img src="{% static 'appointment/images/barber-sh.jpg' %}" class="img-fluid rounded-start rounded" alt="business-img">
+    </div>
+    <div class="col-md-8 p-3 d-flex">
+        <div class="card border-light mb-3 w-50 appoint-cont">
+            <div class="card-header text-center text-color"><h4>Hi {{request.user.first_name}}! Please fill out the form</h4></div>
+            <div class="card-body">
+                <form method="post" class="text-color">
+                    {% csrf_token %} {{ form|crispy }}
+                    <div class="container">
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="text-center ms-5 w-50 actions-cont">
+            <div class="mt-4">
+                <p><strong class="text-center text-color">
+                    Do you have any existing appointments?<br>
+                    You can cancel or reschedule any time.
+                </strong></p>
+                <a class="btn btn-primary mb-3" href="{% url 'appointments' %}" role="button">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Store the url to send a POST request in order to get available hours -->
+<input class="visually-hidden" type="text" data-url="{% url 'availability' %}" id="url">
+
+<script src="{% static 'appointment/js/set_appointment.js' %}"></script>
+{% endblock %}
+    

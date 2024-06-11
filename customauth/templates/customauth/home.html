@@ -1,0 +1,185 @@
+{% extends 'customauth/base.html' %}
+{% block title %}Home Page{% endblock  %}
+
+{% block body %}
+{% load static %}
+    <style>
+        h1{
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+        }
+        .appointment-cont>div{
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .hours{
+            font-size: 1.5em;
+        }
+        .text-color{color: #607274;}
+
+        /* Media queries */
+        @media (max-width: 768px) {
+            h3{font-size: 1em;}
+            .hours{font-size: 1em;}
+            .appointment-cont>div{
+                font-family: "Roboto", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+                font-size: 0.8em;
+            }
+            .appointment-cont>div>a{font-size: 1em;}
+            .row-cont{
+                display: flex;
+                gap: 5em;
+            }
+            .row-cont>div>.card>.card-body{font-size: 0.7em;}
+            .row-cont>.col-md-6>.card{width: 15em !important;}
+            .contact{
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                font-size: 0.8em;
+            }
+            .contact>h5{font-size: 1.4em}
+        }
+    </style>
+    <!-- Login - Signup -->
+    <h3 class="text-center mt-5 text-color">Schedule an appointment with us:</h3>
+    <div class="card container mt-3  appointment-cont">
+        <div class="card-body d-flex justify-content-center gap-3 text-color flex-wrap">
+            To make an appointment, please login with your credentials or sign-up with us.
+            <a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a>
+            <a class="btn btn-secondary" href="{% url 'signup' %}" role="button">sign-up</a>
+        </div>
+    </div>
+    <!-- Office hours -->
+    <div class="text-success mt-5">
+        <hr>
+    </div>
+    <h3 class="card-title text-center mt-5 mb-4 text-color text-decoration-underline">
+        Our office hours
+    </h3>
+    <div class="container d-flex align-items-center mt-3 mb-5 flex-column hours office-cont">
+        <ul class="list-unstyled text-color">
+            <li><p class="card-text"></p>-- 10:00 am --</li>
+            <li><p class="card-text"></p>-- 11:00 am --</li>
+            <li><p class="card-text"></p>-- 12:00 am --</li>
+            <li><p class="card-text"></p>-- 01:00 pm --</li>
+            <li><p class="card-text"></p>-- 02:00 pm --</li>
+            <li><p class="card-text"></p>-- 03:00 pm --</li>
+            <li><p class="card-text"></p>-- 04:00 pm --</li>
+            <li><p class="card-text"></p>-- 05:00 pm --</li>
+        </ul>
+    </div>
+    <!-- Services -->
+    <div class="text-success mt-5">
+        <hr>
+    </div>
+    <h3 class="text-center mt-5 mb-5 text-color text-decoration-underline">
+        Our services
+    </h3>
+    <div class="container d-flex flex-column align-items-center mb-5 gap-5 text-color card-cont">
+        <div class="row row-cont">
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                <img src="{% static 'customauth/images/service1.jpg' %}" class="card-img-top rounded" alt="service-img">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Beard Bliss</strong></p>
+                        <p class="card-text">Price: $13.00</p>
+                        <p class="card-text">
+                            Description: Say goodbye to unruly facial hair and embrace a well-groomed, stylish beard with our expert beard trimming and shaping services.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                <img src="{% static 'customauth/images/service2.jpg' %}" class="card-img-top rounded" alt="service-img">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Hot Towel Shave</strong></p>
+                        <p class="card-text">Price: $22.00</p>
+                        <p class="card-text">
+                            Description: A hot towel shave is a luxurious and relaxing shaving experience that involves using hot towels to soften the beard and prepare the skin for shaving.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cont">
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                <img src="{% static 'customauth/images/service3.jpg' %}" class="card-img-top rounded" alt="service-img">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Beard Trimming and Shaping</strong></p>
+                        <p class="card-text">Price: $22.00</p>
+                        <p class="card-text">
+                            Description: This service involves trimming and shaping a client's beard to achieve a desired style and length.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                <img src="{% static 'customauth/images/service4.jpg' %}" class="card-img-top rounded" alt="service-img">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Men's Facials</strong></p>
+                        <p class="card-text">Price: $10.00</p>
+                        <p class="card-text">
+                            Description: Upgrade your skincare routine! Our men's facials go beyond cleansing. <br><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-cont">
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                <img src="{% static 'customauth/images/service5.jpg' %}" class="card-img-top rounded" alt="service-img">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Traditional Shave</strong></p>
+                        <p class="card-text">Price: $15.00</p>
+                        <p class="card-text">
+                            Description: Ditch the razor burn! Experience the ultimate pampering with a close, comfortable shave using a traditional straight razor.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                <img src="{% static 'customauth/images/service6.jpg' %}" class="card-img-top rounded" alt="service-img">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Haircut</strong></p>
+                        <p class="card-text">Price: $20.00</p>
+                        <p class="card-text">
+                            Description: Ready for a fresh cut? We'll tailor your hairstyle to your taste. <br><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact information -->
+        <div class="card mb-5 w-100">
+            <div class="card-body mb-3 contact">
+                <h5 class="card-title">Contact information:</h5>
+                <p class="card-text">
+                    Phone number: +6532891238 <br>
+                    E-mail: sharpCuts@gmail.com
+                </p>
+                <p class="card-text">
+                    <i class="bi bi-instagram"></i>
+                    <i class="bi bi-facebook"></i>
+                    <i class="bi bi-whatsapp"></i>
+                    <i class="bi bi-twitter"></i>
+                </p>
+            </div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d47383.94875621651!2d-88.04269085136717!3d42.075404199999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880fba669af96919%3A0x610c2aa8f89252f!2sEJ&#39;s%20Barbershop!5e0!3m2!1ses-419!2sus!4v1717988408571!5m2!1ses-419!2sus" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+{% endblock %}
+
+    
