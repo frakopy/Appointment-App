@@ -139,6 +139,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "user.User"
 
 # CORS and CSRF configuration
-CORS_ALLOWED_ORIGINS = ["https://your-domain"]
+CORS_ALLOWED_ORIGINS = ["https://appointment-app.up.railway.app"]
 
-CSRF_TRUSTED_ORIGINS = ["https://https://your-domain"]
+CSRF_TRUSTED_ORIGINS = ["https://appointment-app.up.railway.app"]
