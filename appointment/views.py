@@ -2,6 +2,7 @@ import json
 import datetime
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views import View
 from django.views.generic import CreateView, ListView
 from utilities.googleCalendar import GoogleCalendar
@@ -89,10 +90,12 @@ def update_event(request):
             appointment.time = time
             appointment.save()
         else:
-            print("Some of following was not received: id | date | time")
+            print(
+                "Some of following was not received: appointment_id | event_id | date | time"
+            )
             return HttpResponse("<div class='text-center mt-5'>Something was wrong, check console logs</div>")
 
-    return redirect("appointments")
+    return redirect(reverse("appointments") + "?updated")
 
 def delete_event(request, pk, eid):
     if request.method == "DELETE":

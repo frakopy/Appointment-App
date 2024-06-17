@@ -45,7 +45,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{% url 'update_event' %}" id="date-form">
+                <form method="POST" id="date-form" action="{% url 'update_event' %}">                                                                                                                                                                                                                                                                                                                                                                            
                     {% csrf_token %}
                     <div class="mb-5">
                         <input type="date" name="date" class="form-control mb-2" id="newDate">
@@ -82,8 +82,15 @@
             // Trigger the toast notification
             Toast.fire({
                 icon: "success",
-                title: "Event successfully deleted"
+                title: "Event successfully updated"
             });
         }
     </script>
+    
+    {% if "updated" in request.GET %}
+        <script>
+            showConfirmation()
+        </script>
+    {% endif %}
+        
 {% endblock %}
