@@ -2,7 +2,6 @@ import json
 import datetime
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, ListView
 from utilities.googleCalendar import GoogleCalendar
@@ -30,6 +29,7 @@ class AppointmentView(LoginRequiredMixin, CreateView):
 
         # Create google calendar event
         google = GoogleCalendar()
+
         event = google.create_event(
             f"Appointment for: {service}",
             f"Reserved between {user.first_name} and the barber {barber}",
@@ -38,13 +38,16 @@ class AppointmentView(LoginRequiredMixin, CreateView):
             "America/Chicago",
         )
 
+        # Adding new fields and saving the appointment in the database
         form.instance.user = user
         form.instance.event_url = event["htmlLink"]
         form.instance.event_id = event["id"]
-        return super().form_valid(form)
+        form.save()
 
-    def get_success_url(self):
-        return reverse_lazy("set_appointment") + "?created"
+        # Adding a custom event (created) for HTMX 
+        response = HttpResponse()
+        response["HX-Trigger"] = "created"
+        return response
 
 
 class AvailabilityView(View):
@@ -73,9 +76,9 @@ def update_event(request):
     if request.method == "POST":
         date = request.POST.get("date")
         str_time = request.POST.get("time") + ":00"
-        time = datetime.datetime.strptime(str_time, "%H:%M:%S").time()
         appointment_id = request.GET.get("id")
         event_id = request.GET.get("event-id")
+        time = datetime.datetime.strptime(str_time, "%H:%M:%S").time()
         time_zone = "America/Chicago"
         if appointment_id and event_id and date and time:
             # Update google calendar event in background
@@ -101,7 +104,9 @@ def delete_event(request, pk, eid):
             appointment.delete()
             appointment_list = Appointment.objects.all()
             context = {"appointment_list": appointment_list}
-            return render(request,"appointment/list_appointments.html", context)
+            response = render(request, "appointment/list_appointments.html", context)
+            response["HX-Trigger"] = "deleted"
+            return response
         except Exception as e:
             print("Error when trying to retrieve appointment object: " + str(e))
     else:

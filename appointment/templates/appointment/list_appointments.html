@@ -9,6 +9,7 @@
             <button class="btn btn-danger cancel-btn" type="submit"
             hx-delete="{% url 'delete_event' pk=appointment.id eid=appointment.event_id %}"
             hx-target="#appointment-tbody"
+            hx-on:deleted="showConfirmation()"
             hx-swap="outerHTML">
                 Cancel
             </button>

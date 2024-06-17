@@ -4,6 +4,7 @@ const time = document.getElementById("id_time");
 const inputUrl = document.getElementById("url");
 const hoursUrl = inputUrl.dataset.url;
 
+
 barber.addEventListener("change", () => {
   date.removeAttribute("disabled");
   if (date.value) {

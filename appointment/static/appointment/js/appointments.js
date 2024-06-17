@@ -87,7 +87,6 @@ inputDate.addEventListener("change", () => {
   });
 });
 
-console.log("hello world");
 
 // Display calendar on click 
 inputDate.addEventListener("click", (e) => {

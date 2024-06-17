@@ -20,6 +20,8 @@
         "qpmh",
         "rdrs",
         "scdq",
+        "Swal",
+        "sweetalert",
         "Tosend"
     ]
 }

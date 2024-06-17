@@ -62,4 +62,28 @@
 
     <!-- Custom JS script -->
     <script src="{% static 'appointment/js/appointments.js' %}"></script>
+
+    <!-- Sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top",
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        const showConfirmation = () => {
+            // Trigger the toast notification
+            Toast.fire({
+                icon: "success",
+                title: "Event successfully deleted"
+            });
+        }
+    </script>
 {% endblock %}

@@ -2,7 +2,8 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import json, environ, os, sys
-from .formatTime import get_start_end_time
+# from .formatTime import get_start_end_time
+
 # Add the upper dir to the sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from core.settings import BASE_DIR
@@ -92,8 +93,10 @@ if __name__ == "__main__":
     #  Creating Google Calendar object
     google = GoogleCalendar()
 
+    print("Google Calendar instance created: ", google)
+
     # Delete an event
-    google.delete_event("s1pfacoldi518nrj1fcq5rdrs0")
+    # google.delete_event("s1pfacoldi518nrj1fcq5rdrs0")
 
     # # Update an event
     # event_id = "1k9mc5c9bjv06scdq1nv0qpmh0"

@@ -17,6 +17,29 @@
     }
     .text-color{color: #607274;}
 
+    /* spinner */
+    .loader {
+        width: 1.5em;
+        height: 1.5em;
+        border: 5px solid;
+        border-color: #FFFFFF transparent;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+        position: absolute;
+        right: 2em;
+    }
+
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
     /* Media queries */
         @media (max-width: 768px) {
             .row>div>.appoint-cont{width: 100% !important;}
@@ -52,10 +75,21 @@
         <div class="card border-light mb-3 w-50 appoint-cont">
             <div class="card-header text-center text-color"><h4>Hi {{request.user.first_name}}! Please fill out the form</h4></div>
             <div class="card-body">
-                <form method="post" class="text-color">
+                <form 
+                id="appointmentForm"
+                method="post" 
+                class="text-color" 
+                hx-post="{% url 'set_appointment' %}" 
+                hx-trigger="submit" 
+                hx-indicator=".loader"
+                hx-on:created="showConfirmation()" 
+                hx-swap="none">
                     {% csrf_token %} {{ form|crispy }}
                     <div class="container">
-                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        <button type="submit" class="btn btn-primary w-100">
+                            Submit
+                            <span class="loader htmx-indicator"></span>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -74,6 +108,43 @@
 <!-- Store the url to send a POST request in order to get available hours -->
 <input class="visually-hidden" type="text" data-url="{% url 'availability' %}" id="url">
 
+<!-- Custom js script -->
 <script src="{% static 'appointment/js/set_appointment.js' %}"></script>
+
+<!-- Sweet alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "center",
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    const showConfirmation = () => {
+        // Reset the form
+        const form = document.getElementById('appointmentForm');
+        form.reset(); 
+
+        // Disabling input date and time
+        const date = document.getElementById('id_date')
+        const time = document.getElementById('id_time')
+        time.innerHTML = ''
+        time.disabled=true
+        date.disabled=true
+
+        // Trigger the toast notification
+        Toast.fire({
+            icon: "success",
+            title: "Event successfully created"
+        });
+    }
+</script>
+
 {% endblock %}
     
