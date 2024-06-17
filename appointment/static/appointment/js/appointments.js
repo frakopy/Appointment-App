@@ -1,8 +1,11 @@
 // Variables for work with appointments.html
-const dateForm = document.getElementById("date-form");
 const inputDate = document.getElementById("newDate");
 const inputTime = document.getElementById("newTime");
+const idAppointment = document.getElementById("id_appointment");
+const idEvent = document.getElementById("id_event");
 const urlAvailability = document.getElementById("url-availability");
+const submitButton = document.getElementById("btn-submit");
+const closeButton = document.getElementById("btn-close");
 const btnElements = document.getElementsByClassName("btn-reschedule");
 const btnList = Array.from(btnElements);
 
@@ -13,7 +16,8 @@ btnList.forEach((element) => {
     const barberId = e.target.dataset.barberid;
     const eventId = e.target.dataset.eventid;
     inputDate.setAttribute("data-barberId", barberId);
-    dateForm.action = dateForm.action + `?id=${appointmentId}&event-id=${eventId}`;
+    idAppointment.value = appointmentId;
+    idEvent.value = eventId;
   });
 });
 

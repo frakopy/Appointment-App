@@ -45,15 +45,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" id="date-form" action="{% url 'update_event' %}">                                                                                                                                                                                                                                                                                                                                                                            
+                <form method="POST" id="date-form" 
+                hx-post="{% url 'update_event' %}" 
+                hx-trigger="submit"
+                hx-swap="outerHTML"
+                hx-target="#appointment-tbody">                                                                                                                                                                                                                                                                                                                                                                            
                     {% csrf_token %}
                     <div class="mb-5">
                         <input type="date" name="date" class="form-control mb-2" id="newDate">
                         <select name="time" disabled class="select form-select" id="newTime"></select>
                         <input type="text" class="visually-hidden" data-url="{% url 'availability' %}" id="url-availability">
+                        <input type="hidden" id="id_appointment" name="appointment-id">
+                        <input type="hidden" id="id_event" name="event-id">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit">Submit</button>
+                    <button type="button" class="btn btn-secondary" id="btn-close" data-bs-dismiss="modal">Close</button>
                 </form>
             </div>
             </div>
@@ -78,19 +84,12 @@
             }
         });
 
-        const showConfirmation = () => {
+        const showConfirmation = (title) => {
             // Trigger the toast notification
             Toast.fire({
                 icon: "success",
-                title: "Event successfully updated"
+                title: title
             });
         }
     </script>
-    
-    {% if "updated" in request.GET %}
-        <script>
-            showConfirmation()
-        </script>
-    {% endif %}
-        
 {% endblock %}

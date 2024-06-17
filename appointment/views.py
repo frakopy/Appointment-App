@@ -77,10 +77,11 @@ def update_event(request):
     if request.method == "POST":
         date = request.POST.get("date")
         str_time = request.POST.get("time") + ":00"
-        appointment_id = request.GET.get("id")
-        event_id = request.GET.get("event-id")
+        appointment_id = request.POST.get("appointment-id")
+        event_id = request.POST.get("event-id")
         time = datetime.datetime.strptime(str_time, "%H:%M:%S").time()
         time_zone = "America/Chicago"
+
         if appointment_id and event_id and date and time:
             # Update google calendar event in background
             UpdateEventThread(event_id, date, time, time_zone).start()
@@ -90,12 +91,14 @@ def update_event(request):
             appointment.time = time
             appointment.save()
         else:
-            print(
-                "Some of following was not received: appointment_id | event_id | date | time"
-            )
+            print("Some of following was not received: appointment_id | event_id | date | time")
             return HttpResponse("<div class='text-center mt-5'>Something was wrong, check console logs</div>")
 
-    return redirect(reverse("appointments") + "?updated")
+    appointments = Appointment.objects.filter(user=request.user)
+    context = {"appointment_list": appointments, "status": "deleted"}
+    response = render(request,"appointment/list_appointments.html", context)
+    return response
+
 
 def delete_event(request, pk, eid):
     if request.method == "DELETE":
@@ -105,7 +108,8 @@ def delete_event(request, pk, eid):
             # Delete the appointment from database
             appointment = Appointment.objects.get(pk=pk)
             appointment.delete()
-            appointment_list = Appointment.objects.all()
+            user = request.user
+            appointment_list = Appointment.objects.filter(user=user)
             context = {"appointment_list": appointment_list}
             response = render(request, "appointment/list_appointments.html", context)
             response["HX-Trigger"] = "deleted"

@@ -2,18 +2,41 @@
 
 {% block body %} 
 {% load crispy_forms_tags %}
-    {% if 'registered' in request.GET %}
-        <div class="container d-flex justify-content-center mt-2">
-            <div class="alert alert-success alert-dismissible fade show w-50 text-center" role="alert">
-                <p>User successfully created, use your credentials for logging in.</p>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-    {% endif %}
+    
     <div class="container d-flex justify-content-center mt-5">
         <form method="post" class="w-50">
             {% csrf_token %} {{ form|crispy }}
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+
+    <!-- Sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top",
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        const showConfirmation = (title) => {
+            // Trigger the toast notification
+            Toast.fire({
+                icon: "success",
+                title: title
+            });
+        }
+    </script>
+    
+    {% if "registered" in request.GET %}
+        <script>
+            showConfirmation("User successfully created, use your credentials for logging in.")
+        </script>
+    {% endif %}
 {% endblock %}

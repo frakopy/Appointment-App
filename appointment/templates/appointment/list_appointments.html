@@ -9,7 +9,7 @@
             <button class="btn btn-danger cancel-btn" type="submit"
             hx-delete="{% url 'delete_event' pk=appointment.id eid=appointment.event_id %}"
             hx-target="#appointment-tbody"
-            hx-on:deleted="showConfirmation()"
+            hx-on:deleted="showConfirmation('Event successfully deleted')"
             hx-swap="outerHTML">
                 Cancel
             </button>
@@ -23,4 +23,14 @@
         </td>
     </tr>
 {% endfor %}
-</tbody>
+
+<!-- To display a sweet alert notification to inform the user -->
+{% if status %}
+    {% if status == 'deleted' %}
+        <script>
+            showConfirmation('Event successfully updated')
+        </script>
+    {% endif %}
+{% endif %}
+
+</tbody>    
